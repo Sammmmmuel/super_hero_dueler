@@ -1,7 +1,7 @@
 import random 
 from ability import Ability
 from armor import Armor
-
+from weapon import Weapon
 class Hero:
     def __init__(self, name, starting_health=100):
         self.name = name
@@ -9,6 +9,17 @@ class Hero:
         self.current_health = starting_health
         self.abilities = list()
         self.armors = list()
+        self.deaths = 0
+        self.kills = 0
+
+    def add_death(self, num_deaths):
+    # ''' Update deaths with num_deaths'''
+    # TODO: This method should add the number of deaths to self.deaths
+        self.deaths += num_deaths
+
+    def add_kill(self, num_kills):
+    # ''' Update self.kills by num_kills amount'''
+        self.kills += num_kills
 
     def add_ability(self, ability):
         '''Add ability to abilities list '''
@@ -79,22 +90,20 @@ class Hero:
                 opponent.take_damage(self.attack())
             if self.is_alive() == True:
                 print(f"{self.name} won")
+                self.add_kill(1)
+                opponent.add_death(1)
             elif opponent.is_alive() == True:
                 print(f"{opponent.name} won")
+                self.add_death(1)
+                opponent.add_kill(1)
 
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
 
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
-
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
